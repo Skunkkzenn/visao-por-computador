@@ -1,0 +1,44 @@
+int main(void)
+{
+	IVC *image[2];
+	int i;
+
+	image[0] = vc_read_image("labelling-1.pgm");
+	//image[0] = vc_read_image("labelling-2.pgm");
+	if (image[0] == NULL)
+	{
+		printf("ERROR -> vc_read_image():\n\tFile not found!\n");
+		getchar();
+		return 0;
+	}
+
+	image[1] = vc_image_new(image[0]->width, image[0]->height, 1, 255);
+	if (image[1] == NULL)
+	{
+		printf("ERROR -> vc_image_new():\n\tOut of memory!\n");
+		getchar();
+		return 0;
+	}
+
+	int nblobs;
+	OVC *blobs;
+	blobs = vc_binary_blob_labelling(image[0], image[1], &nblobs);
+
+	if (blobs != NULL)
+	{
+		printf("\nNumber of labels: %d\n", nblobs);
+		for (i = 0; i<nblobs; i++)
+		{
+			printf("-> Label %d\n", blobs[i].label);
+		}
+
+		free(blobs);
+	}
+
+	vc_write_image("output.pgm", image[1]);
+
+	vc_image_free(image[0]);
+	vc_image_free(image[1]);
+
+	return 0;
+}

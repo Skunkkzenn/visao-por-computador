@@ -33,9 +33,13 @@ int main(void){
             // Calcula a posição do pixel na memória com base nas coordenadas (x, y)
             pos = y * image->bytesperline + x * image->channels;
             
-            // Define o valor do pixel conforme a condição especificada
+            // Verifica se o pixel está na metade superior esquerda 
             if((x <= image->width/2) && (y <= image->height/2)) image->data[pos]= 1;
+            
+            // Verifica se o pixel está na metade inferior direita
             else if((x > image->width/2) && (y > image->height/2)) image->data[pos] = 1;
+
+            // Caso contrário, define o pixel como preto
             else image->data[pos] = 0;
         }  
     }

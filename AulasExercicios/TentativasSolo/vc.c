@@ -578,7 +578,7 @@ int vc_rgb_to_gray(IVC *src, IVC *dst)
 	int channels_dst = dst->channels;
 	int x, y;
 	long int pos_src, pos_dst;
-	float rf, gf, bf; // variaveis para armazenar os valores dos canais de cor 
+	float rf, gf, bf;
 
 	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL))
 		return 0;
@@ -739,7 +739,8 @@ int vc_scale_gray_to_rgb(IVC *src, IVC *dst)
 			unsigned char gray_value = datasrc[y * width + x]; // Direct array access for efficiency
 
 			// Fixa o valor da escala de cinza na faixa de 0 a 255 (assumindo escala de cinza de 8 bits)
-			gray_value = (gray_value < 0) ? 0 : (gray_value > 255) ? 255 : gray_value;
+			gray_value = (gray_value < 0) ? 0 : (gray_value > 255) ? 255
+																   : gray_value;
 
 			// Cálculos de ponto flutuante para melhor precisão
 			float g_factor = (float)(gray_value - 64) / 64.0f;

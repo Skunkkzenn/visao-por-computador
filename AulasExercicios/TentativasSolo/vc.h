@@ -60,7 +60,7 @@ int vc_gray_to_binary_bernsen(IVC *src, IVC *dst, int kernel, int cmin);
 int vc_gray_to_binary_niblack(IVC *src, IVC *dst, int kernel);
 int vc_binary_dilate(IVC *src, IVC *dst, int kernel);
 int vc_binary_erode(IVC *src, IVC *dst, int kernel);
+
 int vc_binary_open(IVC *src, IVC *dst, int kernel);
 int vc_binary_close(IVC *src, IVC *dst, int kernel);
-
 int vc_binary_blob_labelling(IVC *src, IVC *dst);

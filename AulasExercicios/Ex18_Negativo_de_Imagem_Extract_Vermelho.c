@@ -9,7 +9,7 @@ int main(void){
 
     image = vc_read_image("Images/Additional/cablecar.ppm");
 
-    vc_rgb_get_red_to_gray(image);
+    vc_rgb_negative_red(image);
 
     if(image == NULL){
         printf("Error -> vc_gray_negative():\n\tFile not found!\n");
@@ -17,7 +17,7 @@ int main(void){
         return 0;
     }
 
-    vc_write_image("Images/DesenvolvidasExercicios/vc_rgb_get_red_to_gray.ppm", image);
+    vc_write_image("Images/DesenvolvidasExercicios/vc_rgb_negative_red.ppm", image);
 
     //Liberta espaço em memória
     vc_image_free(image);
