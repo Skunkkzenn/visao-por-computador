@@ -24,6 +24,13 @@ typedef struct {
 	int bytesperline;		// width * channels
 } IVC;
 
+typedef struct {
+	int x, y, width, height;	// Caixa Delimitadora (Bounding Box)
+	int area;					// Área
+	int xc, yc;					// Centro-de-massa
+	int perimeter;				// Perímetro
+	int label;					// Etiqueta
+} OVC;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //                    PROTÓTIPOS DE FUNÇÕES
@@ -62,5 +69,4 @@ int vc_binary_dilate(IVC *src, IVC *dst, int kernel);
 int vc_binary_erode(IVC *src, IVC *dst, int kernel);
 int vc_binary_open(IVC *src, IVC *dst, int kernel);
 int vc_binary_close(IVC *src, IVC *dst, int kernel);
-
-int vc_binary_blob_labelling(IVC *src, IVC *dst);
+OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels);
