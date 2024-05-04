@@ -9,7 +9,6 @@ int main(void)
 
         // Carregar a imagem RGB
         image = vc_read_image("ImagensNegativa/HSVTestImage01.ppm");
-
         if (image == NULL)
         {
             printf("Error -> vc_read_image():\n\tFile not found!\n");

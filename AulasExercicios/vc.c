@@ -1243,8 +1243,7 @@ int vc_binary_close(IVC *src, IVC *dst, int kernel)
 	return verifica;
 }
 
-OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
-{
+OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels){
 	unsigned char *datasrc = (unsigned char *)src->data;
 	unsigned char *datadst = (unsigned char *)dst->data;
 	int width = src->width;
