@@ -10,6 +10,9 @@
 
 #define VC_DEBUG
 
+//++++++++++++++++++++++ MAX e MIN ++++++++++++++++++++++++
+#define MAX(a, b) ((a > b) ? a : b)
+#define MIN(a, b) ((a < b) ? a : b)
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //                   ESTRUTURA DE UMA IMAGEM
@@ -70,4 +73,4 @@ int vc_binary_erode(IVC *src, IVC *dst, int kernel);
 int vc_binary_open(IVC *src, IVC *dst, int kernel);
 int vc_binary_close(IVC *src, IVC *dst, int kernel);
 OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels);
-// int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs);
+int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs);
