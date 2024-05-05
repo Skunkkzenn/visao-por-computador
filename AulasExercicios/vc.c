@@ -1306,7 +1306,7 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels){
 			if (datadst[posX] != 0)
 			{
 				// Se A, B, C e D estão a zero
-	            printf("Pixel (%d, %d) valor: %d\n", x, y, datadst[posX]); // debug
+	            // printf("Pixel (%d, %d) valor: %d\n", x, y, datadst[posX]); // debug
 				if ((datadst[posA] == 0) && (datadst[posB] == 0) && (datadst[posC] == 0) && (datadst[posD] == 0))
 				{
 					datadst[posX] = label;
