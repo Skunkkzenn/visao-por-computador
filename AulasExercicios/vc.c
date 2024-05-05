@@ -1517,3 +1517,76 @@ int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs)
 
 	return 1;
 }
+
+void draw_box(IVC *image, OVC blob) {
+    int x1 = blob.x, y1 = blob.y; // Canto superior esquerdo
+    int x2 = blob.x + blob.width - 1, y2 = blob.y + blob.height - 1; // Canto inferior direito
+    int width = image->width;
+    int channels = image->channels;
+    int levels = image->levels;
+
+    /* Desenha caixa completa
+    // // Iterar sobre as linhas da caixa
+    // for (int y = y1; y <= y2; y++) {
+    //     // Calcular o deslocamento para o início da linha
+    //     int offset = y * width * channels;
+        
+    //     // Desenhar a linha superior
+    //     for (int x = x1; x <= x2; x++) {
+    //         // Ajustar o deslocamento para o pixel atual
+    //         int pixel_offset = offset + x * channels;
+            
+    //         // Definir os valores dos canais de cor
+    //         for (int c = 0; c < channels; c++) {
+    //             // Por exemplo, para uma caixa vermelha:
+    //             image->data[pixel_offset + c] = 255; // Vermelho
+    //         }
+    //     }
+    // } */
+
+#pragma region Desenhar caixa em formato de linhas
+
+    // Desenha linhas horizontais
+    for (int x = x1; x <= x2; x++) {
+        // Desenhar a linha superior
+        for (int c = 0; c < channels; c++) {
+            image->data[(y1 * width + x) * channels + c] = levels - 1; // Branco
+        }
+        // Desenhar a linha inferior
+        for (int c = 0; c < channels; c++) {
+            image->data[(y2 * width + x) * channels + c] = levels - 1; // Branco
+        }
+    }
+
+    // Desenha linhas verticais
+    for (int y = y1; y <= y2; y++) {
+        // Desenhar a linha esquerda
+        for (int c = 0; c < channels; c++) {
+            image->data[(y * width + x1) * channels + c] = levels - 1; // Branco
+        }
+        // Desenhar a linha direita
+        for (int c = 0; c < channels; c++) {
+            image->data[(y * width + x2) * channels + c] = levels - 1; // Branco
+        }
+    }
+
+#pragma endregion
+
+#pragma region Desenhar centro de massa em formato de cruz
+
+
+    int xc = blob.xc, yc = blob.yc;
+    int cross_size = 5;
+    for (int i = -cross_size; i <= cross_size; i++) {
+        // Desenhar linha horizontal
+        for (int c = 0; c < channels; c++) {
+            image->data[((yc + i) * width + xc) * channels + c] = 0; // Preto
+        }
+        // Desenhar linha vertical
+        for (int c = 0; c < channels; c++) {
+            image->data[(yc * width + xc + i) * channels + c] = 0; // preto
+        }
+    }
+#pragma endregion
+
+}
