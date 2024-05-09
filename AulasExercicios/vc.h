@@ -75,3 +75,4 @@ int vc_binary_close(IVC *src, IVC *dst, int kernel);
 OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels);
 int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs);
 void draw_box(IVC *image, OVC blob);
+int vc_gray_histogram_show(IVC *src, IVC *dst);

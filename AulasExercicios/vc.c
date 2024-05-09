@@ -1574,7 +1574,6 @@ void draw_box(IVC *image, OVC blob) {
 
 #pragma region Desenhar centro de massa em formato de cruz
 
-
     int xc = blob.xc, yc = blob.yc;
     int cross_size = 5;
     for (int i = -cross_size; i <= cross_size; i++) {
@@ -1589,4 +1588,61 @@ void draw_box(IVC *image, OVC blob) {
     }
 #pragma endregion
 
+}
+
+// Histograma para imagem grayscale
+int vc_gray_histogram_show(IVC *src, IVC *dst){
+	unsigned char *data = (unsigned char *)src->data;
+	unsigned char *dataDst = (unsigned char *)dst->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y;
+	long int pos;
+	int histogram[256] = {0};
+	int max = 0;
+
+	// Verificação de erros
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+	if (channels != 1) return 0;
+
+	// Calcular o histograma
+	for (y = 0; y<height; y++)
+	{
+		for (x = 0; x<width; x++)
+		{
+			pos = y * bytesperline + x * channels;
+			histogram[data[pos]]++;
+		}
+	}
+
+	// normalizar o histograma
+	for (int i = 0; i<256; i++)
+	{
+		if (histogram[i] > max) max = histogram[i];
+	}
+
+
+	// Desenhar o histograma
+	for (y = 0; y<height; y++)
+	{
+		for (x = 0; x<width; x++)
+		{
+			pos = y * bytesperline + x * channels;
+			dataDst[pos] = 0; // Branco
+		}
+	}
+
+	// Desenhar o histograma
+	for (x = 0; x<256; x++)
+	{
+		int hist_height = (histogram[x] * height) / max;
+		for (y = height - 1; y >= height - hist_height; y--)
+		{
+			pos = y * bytesperline + x * channels;
+			dataDst[pos] = 255; // Preto
+		}
+	}
+	return 1;
 }
