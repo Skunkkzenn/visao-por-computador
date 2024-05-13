@@ -1761,51 +1761,43 @@ int vc_gray_histogram_equalization(IVC *src, IVC *dst)
 	return 1;
 }
 
-int vc_gray_edge_prewitt(IVC *src, IVC *dst, float threshold)
-{
-	unsigned char *datasrc = (unsigned char *)src->data;
-	int bytesperline_src = src->width * src->channels;
-	int channels_src = src->channels;
-	unsigned char *datadst = (unsigned char *)dst->data;
+int vc_gray_edge_prewitt(IVC *src, IVC *dst, float threshold) {
+	unsigned char *data = (unsigned char *)src->data;
 	int width = src->width;
 	int height = src->height;
-	int bytesperline_dst = dst->width * dst->channels;
-	int channels_dst = dst->channels;
-	int x, y, kx, ky;
-	int offset = 1;
-	long int pos, posk;
-	float grad_x, grad_y;
-	float grad;
+	int byteperline = src->width*src->channels;
+	int channels = src->channels;
+	int x, y;
+	long int pos;
+	long int posA, posB, posC, posD, posE, posF, posG, posH;
+	double mag, mx, my;
 
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL))
-		return 0;
-	if ((src->width != dst->width) || (src->height != dst->height))
-		return 0;
-	if ((src->channels != 1) || (dst->channels != 1))
-		return 0;
+	if ((width <= 0) || (height <= 0) || (src->data == NULL)) return 0;
+	if (channels != 1) return 0;
 
-	for (y = offset; y < height - offset; y++)
+	for (y = 1; y < height; y++)
 	{
-		for (x = offset; x < width - offset; x++)
+		for (x = 1; x < width; x++)
 		{
-			pos = y * bytesperline_src + x * channels_src;
-			grad_x = grad_y = 0;
-			for (ky = -offset; ky <= offset; ky++)
-			{
-				for (kx = -offset; kx <= offset; kx++)
-				{
-					posk = (y + ky) * bytesperline_src + (x + kx) * channels_src;
-					grad_x += datasrc[posk] * ((kx == 0) ? 0 : (kx > 0) ? 1
-																		: -1);
-					grad_y += datasrc[posk] * ((ky == 0) ? 0 : (ky > 0) ? 1
-																		: -1);
-				}
-			}
-			grad = sqrt(grad_x * grad_x + grad_y * grad_y);
-			if (grad > threshold)
-				datadst[pos] = 255;
+			pos = y * byteperline + x * channels;
+
+			posA = (y - 1)* byteperline + (x - 1) * channels;
+			posB = (y - 1)* byteperline + (x)* channels;
+			posC = (y - 1)* byteperline + (x + 1)* channels;
+			posD = (y)* byteperline + (x - 1)* channels;
+			posE = (y)* byteperline + (x + 1)* channels;
+			posF = (y + 1)* byteperline + (x - 1)* channels;
+			posG = (y + 1)* byteperline + (x)* channels;
+			posH = (y + 1)* byteperline + (x + 1)* channels;
+			mx = ((-1 * data[posA]) + (1 * data[posC]) + (-1 * data[posD]) + (1 * data[posE]) + (-1 * data[posF]) + (1 * data[posH])) / 3; //?
+			my = ((-1 * data[posA]) + (1 * data[posF]) + (-1 * data[posB]) + (1 * data[posG]) + (-1 * data[posC]) + (1 * data[posH])) / 3;
+
+			mag = sqrt((mx*mx) + (my * my));
+
+			if (mag > th)
+				dst->data[pos] = 255;
 			else
-				datadst[pos] = 0;
+				dst->data[pos] = 0;
 		}
 	}
 	return 1;
@@ -1819,12 +1811,12 @@ int vc_gray_edge_sobel(IVC *src, IVC *dst, float threshold)
 	unsigned char *datadst = (unsigned char *)dst->data;
 	int width = src->width;
 	int height = src->height;
-	int bytesperline_dst = dst->width * dst->channels; // Corrigido bytesperline_dst
+	int bytesperline_dst = dst->width * dst->channels;
 	int channels_dst = dst->channels;
 	int x, y, kx, ky;
 	int offset = 1;
-	long int pos, posA, posB, posC, posD, posE, posF, posG, posH; // Declaradas variáveis posA a posH
-	float mx, my, mag;											  // Declaradas variáveis mx, my e mag
+	long int pos, posA, posB, posC, posD, posE, posF, posG, posH;
+	float mx, my, mag;											  
 
 	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL))
 		return 0;
@@ -1835,9 +1827,9 @@ int vc_gray_edge_sobel(IVC *src, IVC *dst, float threshold)
 
 	for (y = offset; y < height - offset; y++)
 	{
-		for (x = offset; x < width - offset; x++) // Corrigido o loop de x
+		for (x = offset; x < width - offset; x++) 
 		{
-			pos = y * bytesperline_dst + x * channels_dst; // Corrigido pos
+			pos = y * bytesperline_dst + x * channels_dst; 
 
 			posA = (y - 1) * bytesperline_src + (x - 1) * channels_src;
 			posB = (y - 1) * bytesperline_src + x * channels_src;
