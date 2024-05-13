@@ -74,5 +74,10 @@ int vc_binary_open(IVC *src, IVC *dst, int kernel);
 int vc_binary_close(IVC *src, IVC *dst, int kernel);
 OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels);
 int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs);
+
 void draw_box(IVC *image, OVC blob);
+
 int vc_gray_histogram_show(IVC *src, IVC *dst);
+int vc_gray_histogram_equalization(IVC *src, IVC *dst);
+int vc_gray_edge_prewitt(IVC *src, IVC *dst, float threshold);
+int vc_gray_edge_sobel(IVC *src, IVC *dst, float threshold);
