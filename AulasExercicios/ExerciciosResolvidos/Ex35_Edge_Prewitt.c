@@ -5,7 +5,7 @@
 int main(void)  {
     IVC* image[2];
 
-    image[1] = vc_read_image("Images/Histograma/barbara.pgm");
+    image[1] = vc_read_image("Images/Classic/barbara.pgm");
     if(image[1] == NULL){
         printf("ERROR -> vc_read_image():\n\tFile not found!\n");
         getchar();
@@ -20,7 +20,7 @@ int main(void)  {
         return 0;
     }
 
-    int valida = vc_gray_edge_prewitt(image[1], image[2], 12);
+    int valida = vc_gray_edge_prewitt(image[1], image[2], 0.7);
     if(valida == 0){
         printf("ERROR -> vc_gray_edge_prewitt():\n\tMemory not allocated!\n");
         getchar();

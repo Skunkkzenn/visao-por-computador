@@ -5,7 +5,7 @@
 int main(void){
     IVC *image[2];
 
-    image[1] = vc_read_image("./Images/Classic/boats.pgm");
+    image[1] = vc_read_image("./Images/Classic/barbara.pgm");
     if(image[1] == NULL) {
         printf("Erro: Não foi possível abrir a imagem.\n");
         exit(1);
@@ -17,14 +17,14 @@ int main(void){
         exit(1);
     }
 
-    int valida = vc_gray_edge_sobel(image[1], image[2], 12);
+    int valida = vc_gray_edge_sobel(image[1], image[2], 0.8);
     if(valida == 0) {
         printf("Erro: Não foi possível alocar memória para a imagem.\n");
         getchar();
         exit(1);
     }
 
-    int validaEscrita = vc_write_image("boat_edge_sobel.pgm", image[2]);
+    int validaEscrita = vc_write_image("barbara_edge_sobel.pgm", image[2]);
     if(validaEscrita == 0) {
         printf("Erro: Não foi possível escrever a imagem.\n");
         getchar();

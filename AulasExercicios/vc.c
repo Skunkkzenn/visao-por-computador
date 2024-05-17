@@ -1789,12 +1789,12 @@ int vc_gray_edge_prewitt(IVC *src, IVC *dst, float threshold) {
 			posF = (y + 1)* byteperline + (x - 1)* channels;
 			posG = (y + 1)* byteperline + (x)* channels;
 			posH = (y + 1)* byteperline + (x + 1)* channels;
-			mx = ((-1 * data[posA]) + (1 * data[posC]) + (-1 * data[posD]) + (1 * data[posE]) + (-1 * data[posF]) + (1 * data[posH])) / 3; //?
+			mx = ((-1 * data[posA]) + (1 * data[posC]) + (-1 * data[posD]) + (1 * data[posE]) + (-1 * data[posF]) + (1 * data[posH])) / 3;
 			my = ((-1 * data[posA]) + (1 * data[posF]) + (-1 * data[posB]) + (1 * data[posG]) + (-1 * data[posC]) + (1 * data[posH])) / 3;
 
-			mag = sqrt((mx*mx) + (my * my));
+			mag = sqrt((mx*mx) + (my * my)) *  (1 / sqrt(2));
 
-			if (mag > th)
+			if (mag > threshold)
 				dst->data[pos] = 255;
 			else
 				dst->data[pos] = 0;
@@ -1843,7 +1843,7 @@ int vc_gray_edge_sobel(IVC *src, IVC *dst, float threshold)
 			mx = ((-1 * datasrc[posA]) + (1 * datasrc[posC]) + (-2 * datasrc[posD]) + (2 * datasrc[posE]) + (-1 * datasrc[posF]) + (1 * datasrc[posH])) / 3;
 			my = ((-1 * datasrc[posA]) + (1 * datasrc[posF]) + (-2 * datasrc[posB]) + (2 * datasrc[posG]) + (-1 * datasrc[posC]) + (1 * datasrc[posH])) / 3;
 
-			mag = sqrt((mx * mx) + (my * my));
+			mag = sqrt((mx * mx) + (my * my)) * (1 / sqrt(2));
 
 			datadst[pos] = (mag > threshold) ? 255 : 0;
 		}
